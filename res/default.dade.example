@@ -1,0 +1,57 @@
+; ===========================================================================
+;  dademain 默认配置（UTF-8，允许 BOM）
+;
+;  段名 = "工具:" + 路径，路径用 '>' 分层（与原版 dade\.dade 完全一致）：
+;      [工具:演示]            顶层分组
+;      [工具:演示>示例工具]    演示 的子项
+;      [工具:演示>深层>A]      可以继续往下套
+;
+;  键名大小写不敏感，支持别名：
+;      Name                               显示名
+;      Path / Exe / File                  可执行文件（相对 dade 目录）
+;      Args / Arguments / Params          参数，支持 {prompt键}
+;      WorkDir / WorkingDir / Dir         工作目录
+;      Description / Desc / Comment       描述
+;      RunAsAdmin / Admin                 需要管理员
+;      NewConsole                         新控制台
+;      HideWindow / Hidden                隐藏窗口（需 NewConsole=1）
+;      Wait                               1 等 / 0 不等 / 不写=跟随 NewConsole
+;      Prompts / Prompt                   键:提示[:默认值]，多条用 ';' 分隔
+; ===========================================================================
+
+[工具:演示]
+Name=演示
+Description=一个最小可用的示例分组
+
+[工具:演示>示例工具]
+Name=示例工具
+Description=演示 prompts 参数替换与等待
+Path=hello.bat
+Args=/{名字}
+NewConsole=1
+Wait=1
+Prompts=名字:请输入名字:世界
+
+[工具:演示>查看本机信息]
+Name=查看本机信息
+Description=子目录载荷示例（tools\whoami.bat）
+Path=tools\whoami.bat
+NewConsole=1
+Wait=1
+
+[工具:演示>打开 cmd]
+Name=打开 cmd
+Description=在 payload 目录里开一个命令行窗口
+Path=cmd.exe
+WorkDir=tools
+NewConsole=1
+Wait=1
+
+[工具:演示>需要管理员]
+Name=管理员示例（会触发 UAC）
+Description=仅在真正提权后才会成功
+Path=cmd.exe
+Args=/c "whoami /groups | findstr S-1-16-12288 >nul && echo 已是管理员 || echo 不是管理员"
+RunAsAdmin=1
+NewConsole=1
+Wait=1
