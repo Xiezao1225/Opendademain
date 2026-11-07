@@ -13,24 +13,7 @@ cmake-build-*/
 # 生成的中间文件
 payload_stage/
 
-# 第三方 / 攻击性二进制：不随仓库分发
-_excluded_bin/
-*.exe
-*.obj
-*.pdb
-*.ilk
 
 # 日志
 *.log
 
-# 工具箱原版的攻击性脚本：保留在本地，不随仓库分发
-res/payload/XD.bat
-res/payload/break.bat
-res/payload/hack.bat
-res/payload/install.bat
-res/payload/install_setup.bat
-res/payload/rainbow~.bat
-res/payload/setup.bat
-res/payload/一键部署.bat
-res/payload/server/
-res/payload/shell/
